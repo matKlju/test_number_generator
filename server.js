@@ -1,4 +1,4 @@
-// server.js (repo2)
+// server.js (test_number_generator)
 const express = require('express');
 const app = express();
 
