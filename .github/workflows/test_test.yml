@@ -1,8 +1,8 @@
 name: Poll AT Tasks and Trigger Tests
 
 on:
-#   schedule:
-#     - cron: '*/5 * * * *'  # every 5 minutes # currently not needed
+  schedule:
+    - cron: '*/5 * * * *'  # every 5 minutes
   workflow_dispatch: {}
 
 jobs:
@@ -61,8 +61,9 @@ jobs:
             core.info(`Found ${atItems.length} task(s) in "AT" column.`);
 
             for (const item of atItems) {
-              const issueUrl = item.content.url;
-              core.info(`Triggering test for issue: ${issueUrl}`);
+              if (!item.content || item.content.__typename !== 'Issue') continue;
+              const issue = item.content;
+              core.info(`Triggering test for issue: ${issue.url}`);
 
               await github.rest.repos.createDispatchEvent({
                 owner: 'matKlju',
