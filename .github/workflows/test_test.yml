@@ -69,7 +69,10 @@ jobs:
                 repo: 'test_pw_repo',
                 event_type: 'run-playwright-tests',
                 client_payload: {
-                  issue_url: issueUrl,
+                  task_id: issue.id,
+                  task_title: issue.title,
+                  task_description: issue.body,
+                  issue_url: issue.url,
                   source: 'at-poller',
                   triggered_at: new Date().toISOString(),
                 }
