@@ -60,11 +60,11 @@ jobs:
 
             core.notice(`Found ${atItems.length} task(s) in "AT" column.`);
 
+            const logSummary = [];
+
             for (const item of atItems) {
               if (!item.content || item.content.__typename !== 'Issue') continue;
               const issue = item.content;
-              core.notice(`Triggering test for issue: ${issue.url}`);
-
               const payload = {
                 task_id: issue.id,
                 task_title: issue.title,
@@ -74,7 +74,7 @@ jobs:
                 triggered_at: new Date().toISOString(),
               };
 
-              core.notice(`Dispatch payload: ${JSON.stringify(payload, null, 2)}`);
+              logSummary.push(`\n➡️ Dispatching for: ${issue.title}\nPayload: ${JSON.stringify(payload, null, 2)}`);
 
               const dispatchResponse = await github.rest.repos.createDispatchEvent({
                 owner: 'matKlju',
@@ -83,5 +83,7 @@ jobs:
                 client_payload: payload
               });
 
-              core.notice(`Dispatch event sent: ${JSON.stringify(dispatchResponse.status)} - ${JSON.stringify(dispatchResponse.url || 'OK')}`);
+              logSummary.push(`Dispatch result: ${JSON.stringify(dispatchResponse.status)} - ${JSON.stringify(dispatchResponse.url || 'OK')}`);
             }
+
+            core.notice(`\n==== Dispatch Summary ====${logSummary.join("\n")}`);
