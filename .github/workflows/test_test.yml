@@ -65,18 +65,22 @@ jobs:
               const issue = item.content;
               core.info(`Triggering test for issue: ${issue.url}`);
 
+              const payload = {
+                task_id: issue.id,
+                task_title: issue.title,
+                task_description: issue.body,
+                issue_url: issue.url,
+                source: 'at-poller',
+                triggered_at: new Date().toISOString(),
+              };
+
+              core.info(`Dispatch payload: ${JSON.stringify(payload, null, 2)}`);
+
               const dispatchResponse = await github.rest.repos.createDispatchEvent({
                 owner: 'matKlju',
                 repo: 'test_pw_repo',
                 event_type: 'run-playwright-tests',
-                client_payload: {
-                  task_id: issue.id,
-                  task_title: issue.title,
-                  task_description: issue.body,
-                  issue_url: issue.url,
-                  source: 'at-poller',
-                  triggered_at: new Date().toISOString(),
-                }
+                client_payload: payload
               });
 
               core.info(`Dispatch event sent: ${JSON.stringify(dispatchResponse.status)} - ${JSON.stringify(dispatchResponse.url || 'OK')}`);
