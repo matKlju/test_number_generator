@@ -65,7 +65,7 @@ jobs:
               const issue = item.content;
               core.info(`Triggering test for issue: ${issue.url}`);
 
-              await github.rest.repos.createDispatchEvent({
+              const dispatchResponse = await github.rest.repos.createDispatchEvent({
                 owner: 'matKlju',
                 repo: 'test_pw_repo',
                 event_type: 'run-playwright-tests',
@@ -78,4 +78,6 @@ jobs:
                   triggered_at: new Date().toISOString(),
                 }
               });
+
+              core.info(`Dispatch event sent: ${JSON.stringify(dispatchResponse.status)} - ${JSON.stringify(dispatchResponse.url || 'OK')}`);
             }
