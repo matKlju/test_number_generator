@@ -1,9 +1,8 @@
 name: Poll AT Tasks and Trigger Tests
 
 on:
-  # Removed untill schedule is neede
-  # schedule:
-  #   - cron: '*/5 * * * *'  # every 5 minutes 
+#   schedule:
+#     - cron: '*/5 * * * *'  # every 5 minutes # currently not needed
   workflow_dispatch: {}
 
 jobs:
@@ -66,8 +65,8 @@ jobs:
               core.info(`Triggering test for issue: ${issueUrl}`);
 
               await github.rest.repos.createDispatchEvent({
-                owner: 'your-org',
-                repo: 'repo3',
+                owner: 'matKlju',
+                repo: 'test_pw_repo',
                 event_type: 'run-playwright-tests',
                 client_payload: {
                   issue_url: issueUrl,
