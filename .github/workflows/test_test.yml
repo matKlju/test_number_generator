@@ -1,8 +1,9 @@
 name: Poll AT Tasks and Trigger Tests
 
 on:
-  schedule:
-    - cron: '*/5 * * * *'  # every 5 minutes
+  # Removed untill schedule is neede
+  # schedule:
+  #   - cron: '*/5 * * * *'  # every 5 minutes 
   workflow_dispatch: {}
 
 jobs:
