@@ -83,8 +83,6 @@ jobs:
                 event_type: 'run-playwright-tests',
                 client_payload: payload
               });
-
-              logSummary.push(`Dispatch result: ${JSON.stringify(dispatchResponse.status)} - ${JSON.stringify(dispatchResponse.url || 'OK')}`);
             }
 
             core.notice(`\n==== Dispatch Summary ====${logSummary.join("\n")}`);
